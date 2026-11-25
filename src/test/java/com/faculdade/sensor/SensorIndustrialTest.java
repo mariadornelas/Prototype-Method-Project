@@ -7,14 +7,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Comportamento comum do sensor e da calibração, sem falar de clonagem. */
 class SensorIndustrialTest {
 
     private SensorTemperatura sensor() {
         return new SensorTemperatura("T-01", "°C", 80, 90, new Calibracao(1.0, -0.5), List.of("a"), "K");
     }
-
-    // ---- Calibracao ----
 
     @Test
     void calibracaoDeveAplicarGanhoEOffset() {
@@ -48,8 +45,6 @@ class SensorIndustrialTest {
         assertEquals(0.0, a.offset());
     }
 
-    // ---- leituras e nível ----
-
     @Test
     void leituraDeveSerCalibradaEGuardadaEmOrdem() {
         SensorTemperatura s = sensor();
@@ -71,15 +66,15 @@ class SensorIndustrialTest {
 
     @Test
     void nivelDeveUsarLimitesInclusivosSobreOValorCalibrado() {
-        SensorTemperatura s = sensor();   // offset -0,5
+        SensorTemperatura s = sensor();
 
-        s.registrar(80.4);   // 79,9
+        s.registrar(80.4);
         assertEquals(Nivel.NORMAL, s.nivel());
-        s.registrar(80.5);   // 80,0
+        s.registrar(80.5);
         assertEquals(Nivel.ALERTA, s.nivel());
-        s.registrar(90.4);   // 89,9
+        s.registrar(90.4);
         assertEquals(Nivel.ALERTA, s.nivel());
-        s.registrar(90.5);   // 90,0
+        s.registrar(90.5);
         assertEquals(Nivel.CRITICO, s.nivel());
     }
 
@@ -102,8 +97,6 @@ class SensorIndustrialTest {
         assertThrows(UnsupportedOperationException.class, () -> s.historico().clear());
         assertThrows(UnsupportedOperationException.class, () -> s.tags().add("x"));
     }
-
-    // ---- construção ----
 
     @Test
     void construcaoDeveValidarCampos() {

@@ -9,10 +9,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** O que caracteriza o Prototype: clonar sem conhecer a classe concreta, sem Cloneable. */
 class PrototypeDesignTest {
 
-    /** Cliente que só conhece o tipo base: não sabe se é termopar ou transdutor. */
     private static List<SensorIndustrial> produzir(SensorIndustrial modelo, int quantidade) {
         List<SensorIndustrial> lote = new ArrayList<>();
         for (int i = 1; i <= quantidade; i++) {
@@ -67,7 +65,6 @@ class PrototypeDesignTest {
 
     @Test
     void construtoresDeCopiaNaoDevemSerPublicos() {
-        // a cópia só acontece por clonar(); ninguém de fora monta uma cópia "pela metade"
         for (Class<?> c : List.of(SensorTemperatura.class, SensorPressao.class)) {
             long publicosDeCopia = java.util.Arrays.stream(c.getDeclaredConstructors())
                     .filter(k -> Modifier.isPublic(k.getModifiers()))

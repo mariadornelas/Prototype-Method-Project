@@ -44,13 +44,11 @@ class RegistroPrototiposTest {
         assertNotSame(a, b);
         assertEquals(1.0, b.calibracao().ganho());
         assertEquals(List.of("linha-envase"), b.tags());
-        // e um terceiro, criado depois, continua com o valor do modelo
         assertEquals(1.0, catalogo.criar("termopar-K", "T-03").calibracao().ganho());
     }
 
     @Test
     void catalogoDeveGuardarSuaPropriaCopiaDoModelo() {
-        // mexer no objeto original depois de registrar NÃO pode alterar o que o catálogo entrega
         modelo.calibracao().ajustar(9.0, 9.0);
         modelo.adicionarTag("alteracao-posterior");
 

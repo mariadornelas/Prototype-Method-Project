@@ -7,7 +7,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** O coração do padrão: a cópia é fiel, é de verdade outro objeto e não compartilha estado mutável. */
 class ClonagemTest {
 
     private SensorTemperatura original;
@@ -19,8 +18,6 @@ class ClonagemTest {
                 List.of("linha-envase", "critico"), "K");
         pressao = new SensorPressao("P-MOD", "bar", 8, 10, new Calibracao(1.0, 0.0), List.of("linha-envase"), 16.0);
     }
-
-    // ---- fidelidade ----
 
     @Test
     void cloneDeveSerOutroObjetoDoMesmoTipoConcreto() {
@@ -65,8 +62,6 @@ class ClonagemTest {
         assertThrows(NullPointerException.class, () -> original.clonar(null));
         assertThrows(IllegalArgumentException.class, () -> original.clonar(" "));
     }
-
-    // ---- independência (cópia profunda) ----
 
     @Test
     void reajustarACalibracaoDaCopiaNaoDeveAfetarOOriginal() {
@@ -121,8 +116,6 @@ class ClonagemTest {
         assertEquals(2, filho.tags().size());
     }
 
-    // ---- histórico: decisão explícita de NÃO copiar ----
-
     @Test
     void copiaDeveNascerSemHistoricoEntretantoOOriginalMantemOSeu() {
         original.registrar(70.0);
@@ -154,7 +147,7 @@ class ClonagemTest {
         original.registrar(100.0);
         copia.registrar(100.0);
 
-        assertEquals(101.5, original.ultimoValor().orElseThrow(), 1e-9);   // 100 × 1,02 − 0,5
+        assertEquals(101.5, original.ultimoValor().orElseThrow(), 1e-9);
         assertEquals(100.0, copia.ultimoValor().orElseThrow(), 1e-9);
     }
 }
